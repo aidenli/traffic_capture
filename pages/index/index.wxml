@@ -1,0 +1,17 @@
+<!--index.wxml-->
+<view class="container">
+    <view bindtap="bindViewTap" class="userinfo">
+        <button type="default" size="200" bindtap="capture" hover-class="other-button-hover"> 开始抓拍</button>
+    </view>
+
+    <view wx:if="{{captureSrc}}" class="result">
+        <view>
+            <text>抓拍图片</text>
+            <image class="result-image" style="width: 200px; height: 200px; background-color: #eeeeee;" src="{{captureSrc}}"></image>
+        </view>
+        <view>
+            <text>抓拍地址</text>
+            <text>{{address}}</text>
+        </view>
+    </view>
+</view>
