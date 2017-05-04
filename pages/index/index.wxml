@@ -7,11 +7,13 @@
     <view wx:if="{{captureSrc}}" class="result">
         <view>
             <text>抓拍图片</text>
-            <image class="result-image" style="width: 200px; height: 200px; background-color: #eeeeee;" src="{{captureSrc}}"></image>
+            <image class="result-image" style="width: 320px; height: 640px; background-color: #eeeeee;" src="{{captureSrc}}"></image>
+            <image class="result-image" style="width: 320px; height: 640px; background-color: #eeeeee;" src="{{locationSrc}}"></image>
         </view>
-        <view>
-            <text>抓拍地址</text>
+
+        <view class="rgc_info">
             <text>{{address}}</text>
+            <text>{{fullinfo}}</text>
         </view>
     </view>
 </view>

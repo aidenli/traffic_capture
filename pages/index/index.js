@@ -1,30 +1,23 @@
 //index.js
 //获取应用实例
 var app = getApp(),
-    mLocation = require('../..//utils/location')
+    mRequest = require('../../utils/common/request')
 
 Page({
     data: {
         userInfo: {},
         captureSrc: '',
-        address: ''
+        locationSrc: '',
+        address: '',
+        fullinfo: ''
     },
     onLoad: function () {
-        console.log('onLoad')
-        var that = this
-        //调用应用实例的方法获取全局数据
-        app.getUserInfo(function (userInfo) {
-            //更新数据
-            that.setData({
-                userInfo: userInfo
-            })
-        })
+        mRequest.send({
+            url: 'https://www.wxappnow.com/traffic_capture/capturer/get_user_info',
+            success: function () {
 
-        let extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {}
-        this.setData({
-            title: extConfig.title,
-            url: extConfig.url
-        })
+            }
+        });
     },
     capture: function () {
         let that = this
@@ -34,21 +27,35 @@ Page({
             sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: function (res) {
                 // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                var tempFilePaths = res.tempFilePaths
-                console.log(tempFilePaths)
+                let tempFilePaths = res.tempFilePaths
                 that.setData({
                     captureSrc: tempFilePaths[0]
                 })
-
-                mLocation.getCurrentLocation({
+                wx.getLocation({
+                    type: 'gcj02', //返回可以用于wx.openLocation的经纬度
                     success: function (res) {
-                        var latitude = res.latitude
-                        var longitude = res.longitude
-                        var speed = res.speed
-                        var accuracy = res.accuracy
+                        let latitude = res.latitude,
+                            longitude = res.longitude,
+                            potion = latitude + ',' + longitude
 
                         that.setData({
-                            address: JSON.stringify(res)
+                            locationSrc: `http://apis.map.qq.com/ws/staticmap/v2/?center=${potion}&zoom=16&size=180*320&scale=2&maptype=roadmap&markers=color:blue|label:A|${potion}&key=FGHBZ-7HFA3-FPA3O-3WK2N-AHLM3-6RF3C`
+                        })
+
+                        mRequest.send({
+                            url: 'https://www.wxappnow.com/traffic_capture/record/get_location_name',
+                            data: {
+                                latitude: latitude,
+                                longitude: longitude
+                            },
+                            success: function (obj) {
+                                if (obj.errcode === 0) {
+                                    console.log(obj.data)
+                                    that.setData({
+                                        address: obj.data.address + ',' + obj.data.formatted_addresses.recommend
+                                    })
+                                }
+                            }
                         })
                     }
                 })

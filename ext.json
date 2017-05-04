@@ -1,25 +1,11 @@
 {
   "extEnable": true,
-  "extAppid": "",
+  "extAppid": "wxa892d513fa571d4c",
   "ext": {
     "title": "我是模板",
-    "url": "http://event.littleswan.com"
-  },
-  "tabBar": {
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/logs/logs",
-        "text": "日志"
-      },
-      {
-        "pagePath": "pages/user/user",
-        "text": "用户"
-      }
-    ]
+    "url": "http://event.littleswan.com",
+    "domain": "https://www.wxappnow.com",
+    "appid": "wxa892d513fa571d4c"
   },
   "window": {
     "backgroundTextStyle": "light",
